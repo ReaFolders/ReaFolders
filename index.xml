@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--=======================================================================================================================
+An <index/> element represents a ReaPack repository.  That is, it represents a repository that can be imported into
+ReaPack's "Manage repositories" window inside REAPER.
+
+    <index
+        version=""  Must be 1.
+        name=""     The value that will show up under the "Name" column in ReaPack's "Manage repositories" window once this "index.xml" file has been imported.
+        />
+    
+A ReaPack repository can contain one or more ReaPack packages.  Every package is declared using a <reapack/>
+element, and each of these elements must be placed under a <category/> element.  The category element
+is used for organizational purposes when the package is listed in ReaPack's "Browse packages" window.
+
+    <category
+        name=""      Specifies the string that will be displayed under the "Category" column when the package
+        >            is listed in ReaPack's "Browse packages" window.
+        <reapack
+            name=""  Specifies the name of the package, as it should be displayed under the "Package"
+                     column when the package is listed in ReaPack's "Browse packages" window.
+                         
+            type=""  Specifies the type of content that is found inside the package.  Valid types are:
+        />           [script/effect/extension/data/theme/langpack/webinterface/projectpl/tracktpl/midinotenames/autoitem].
+    </category>
+    
+Every ReaPack package has one or more versions associated with it, each declared using a <version/> child
+element.  Inside each version element, the individual files that are part of the package at that version are
+then declared using <source/> elements.  Inside ReaPack's "Browse packages" window, each listed package has a
+"Version" item in its context menu.  So the <version/> elements declare the set of version number items that
+will appear under the "Version" item's submenu when the user navigates into it.  When the user chooses a
+version and applies it, only the files declared for that version will be imported into REAPER from the package.
+
+    <version
+        name="x.x.x"     (Required) The version number.
+        author=""        (Required) The author associated with this version.
+        time=""          (Optional) The time at which this version of the package is considered to have been created (must be ISO 8601 format).
+        >
+        <source
+            file=""      (Optional) File path that the file should be written to when installed.  By default,
+                                    files are laid out in the following way when the "file" attribute is omitted:
+                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                                      <REAPER>\               REAPER's %AppData% folder.
+                                        <reapack_type>\       REAPER %AppData% folder subdirectory that is associated with the <repack/>'s declared type (e.g. "scripts" -> "Scripts\").
+                                          <reapack_name>\     Folder given the same name as the <repack/>.
+                                            <category_name>\  Folder given the same name as the <repack/>'s parent <category/>.
+                                              [file_name]     The name of the file pointed to by the specified URL.
+                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                                    If the <repack/> element is given a name that contains special characters that
+                                    aren't allowed in file names, then the "file" attribute MUST be specified for
+                                    EACH declared file.  Otherwise, this will lead to a package installation error.
+                
+            platform=""  (Optional) The platform that the file is applicable to.  Possible values are:
+                                    [all (default), darwin, darwin32, darwin64, darwin-arm64 (v1.2.3.1+), linux, linux32,
+                                     linux64, linux-armv7l (v1.2.3+), linux-aarch64 (v1.2.3+), windows, win32 and win64]
+            type=""      (Optional) Overrides the type declared by the package.
+                
+            main=""      (Optional) List of Action List sections separated by spaces.  Only effective on script files.  Possible values are:
+                                    [main, midi_editor, midi_inlineeditor, midi_eventlisteditor, mediaexplorer].
+                                    (For compatibility with v1.0, a special value true is also supported. This uses the category name to determine the section.)
+                
+            hash==""     (Optional) Multihash checksum of the file in hexadecimal form (added in v1.2.2).  Supports SHA-256 (1220 prefix).
+            >
+            URL          (Required) URL to a GitHub repository file at a specific commit ID.
+    </version>
+=======================================================================================================================-->
+
+<!--In our case, the "ReaFolders" feature for REAPER lives inside a single package of a single repository.  The entire feature is implemented using ReaScripts.-->
+<index version="1" name="ReaFolders">
+    <category name="Tracks Properties">
+        <reapack name="ReaFolders: Folder support for REAPER" type="script">
+            <version author="ReclaimerNo" name="1.0.0">
+                <source file="ReaFolders - .Library Functions.lua"                            main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20.Library%20Functions.lua</source>
+                <source file="ReaFolders - Collapse all folders.lua"                          main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Collapse%20all%20folders.lua</source>
+                <source file="ReaFolders - Collapse selected folder(s).lua"                   main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Collapse%20selected%20folder(s).lua</source>
+                <source file="ReaFolders - Convert current track layout to folder layout.lua" main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Convert%20current%20track%20layout%20to%20folder%20layout.lua</source>
+                <source file="ReaFolders - Convert selected folder(s) to regular tracks.lua"  main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Convert%20selected%20folder(s)%20to%20regular%20tracks.lua</source>
+                <source file="ReaFolders - Convert selected track(s) to folders.lua"          main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Convert%20selected%20track(s)%20to%20folders.lua</source>
+                <source file="ReaFolders - Expand all folders.lua"                            main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Expand%20all%20folders.lua</source>
+                <source file="ReaFolders - Expand selected folder(s).lua"                     main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Expand%20selected%20folder(s).lua</source>
+                <source file="ReaFolders - Setting [Turn folder colourization on or off].lua" main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Setting%20%5BTurn%20folder%20colourization%20on%20or%20off%5D.lua</source>
+                <source file="ReaFolders - Toggle expansion state of selected folder(s).lua"  main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Toggle%20expansion%20state%20of%20selected%20folder(s).lua</source>
+                <source file="ReaFolders - Turn Automatic Folders on or off.lua"              main="main">https://raw.githubusercontent.com/ReaFolders/ReaFolders/release/v1.0.0/ReaFolders%20-%20Turn%20Automatic%20Folders%20on%20or%20off.lua</source>
+            </version>
+        </reapack>
+    </category>
+    <metadata>
+        <!--Each of these links turns into a button that appears at the bottom of this package's "About" tab when it is opened from ReaPack's "Manage Repositories" window.-->
+        <link rel="website">http://reafolders.com</link>
+        <link rel="screenshot">http://reafolders.wordpress.com/gallery</link>
+        
+        <!--This is the main blob of text that is displayed in this package's "About" tab when it is opened from ReaPack's "Manage Repositories" window.-->
+        <description>
+            <![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \f1 ============================================================\line
+     ____             ______      __    __\line
+    / __ \\___  ____ _/ ____/___  / /___/ /__  __________\line
+   / /_/ / _ \\/ __ `/ /_  / __ \\/ / __  / _ \\/ ___/ ___/\line
+  / _, _/  __/ /_/ / __/ / /_/ / / /_/ /  __/ /  (__  )\line
+ /_/ |_|\\___/\\__,_/_/    \\____/_/\\__,_/\\___/_/  /____/\line
+\line
+ "Because everyone needs a little manilla in their life."\line
+\line
+============================================================\line
+\line
+{\pard \ql \f0 \sa100 \li0 \fi0 \b \fs36 ReaFolders: Folder support for REAPER\par}
+\line
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\line}
+\line
+\line
+{\pard \ql \f0 \sa100 \li0 \fi0 {\b AUTHOR: }ReclaimerNo\par}
+\line
+{\pard \ql \f0 \sa100 \li0 \fi0 \f0 {\b DESCRIPTION:} \par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \f0 A package containing a collection of ReaScripts that implements folder support for REAPER.\par
+For more information, visit: {\field{\*\fldinst{HYPERLINK "http://reafolders.com/"}}{\fldrslt{\ul www.reafolders.com}}}}
+\line
+\line
+{\pard \ql \f0 \sa100 \li0 \fi0 \f0 {\b USAGE:} \par}
+For a great user experience, the following keyboard shortcut assignments are recommended:\par
+\f1
+    -----------------------------------------------------------------\par
+    SHORTCUT          |  SCRIPT\par
+    ------------------+----------------------------------------------\par
+    CTRL +         `  |  Convert current track layout to folder layout\par
+    ALT  +         `  |  Turn Automatic Folders on or off\par
+    ------------------+----------------------------------------------\par
+    CTRL +         \\  |  Toggle expansion state of selected folder(s)\par
+    CTRL + SHIFT + \\  |  Collapse all folders\par
+    ALT  + SHIFT + \\  |  Expand all folders\par
+    ------------------+----------------------------------------------\par
+    CTRL +         /  |  Collapse selected folder(s)\par
+    CTRL + SHIFT + /  |  Expand selected folder(s)\par
+}
+]]></description>
+    </metadata>
+</index>
