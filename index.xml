@@ -131,8 +131,8 @@ For a great user experience, the following keyboard shortcut assignments are rec
     CTRL + SHIFT + \\  |  Collapse all folders\par
     ALT  + SHIFT + \\  |  Expand all folders\par
     ------------------+----------------------------------------------\par
-    CTRL +         /  |  Collapse selected folder(s)\par
-    CTRL + SHIFT + /  |  Expand selected folder(s)\par
+    CTRL + SHIFT + /  |  Collapse selected folder(s)\par
+    ALT  + SHIFT + /  |  Expand selected folder(s)\par
 }
 ]]></description>
     </metadata>

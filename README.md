@@ -97,6 +97,6 @@ USAGE:
           CTRL + SHIFT + \  |  Collapse all folders
           ALT  + SHIFT + \  |  Expand all folders
           ------------------+-----------------------------------------------
-          CTRL +         /  |  Collapse selected folder(s)
-          CTRL + SHIFT + /  |  Expand selected folder(s)
+          CTRL + SHIFT + /  |  Collapse selected folder(s)
+          ALT  + SHIFT + /  |  Expand selected folder(s)
 ```
